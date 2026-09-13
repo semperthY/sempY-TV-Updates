@@ -1,0 +1,29 @@
+name: Publish update
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/publish.yml
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download signed build
+        run: |
+          curl --fail --location 'https://sdmntprnortheu.oaiusercontent.com/files/00000000-2e44-81f4-bb91-f278c1a9c7b0/raw?se=2026-09-13T17%3A14%3A21Z&sp=r&sv=2026-02-06&sr=b&scid=01a09bb8-da7d-7a1c-bd6f-3976db166cce&skoid=e32cbaad-a1eb-4299-9f16-1b364ab43781&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-13T05%3A17%3A35Z&ske=2026-09-14T05%3A17%3A35Z&sks=b&skv=2026-02-06&sig=eufgyk0nQhUYUHK6/nranwOuHRjKtdq5BvB5qBBK/gA%3D' --output build.zip
+          unzip -o build.zip
+          mv app-debug.apk sempY-TV.apk
+      - name: Create update manifest
+        run: |
+          HASH=$(sha256sum sempY-TV.apk | cut -d ' ' -f 1)
+          printf '{\n  "versionCode": 3,\n  "versionName": "0.3.2",\n  "apkUrl": "https://raw.githubusercontent.com/semperthY/sempY-TV-Updates/main/sempY-TV.apk",\n  "sha256": "%s"\n}\n' "$HASH" > latest.json
+      - name: Publish files
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add sempY-TV.apk latest.json
+          git commit -m "publish: sempY TV 0.3.2"
+          git push
