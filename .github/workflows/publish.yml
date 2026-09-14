@@ -13,17 +13,17 @@ jobs:
       - uses: actions/checkout@v4
       - name: Download signed build
         run: |
-          curl --fail --location 'https://sdmntprnortheu.oaiusercontent.com/files/00000000-2e44-81f4-bb91-f278c1a9c7b0/raw?se=2026-09-13T17%3A14%3A21Z&sp=r&sv=2026-02-06&sr=b&scid=01a09bb8-da7d-7a1c-bd6f-3976db166cce&skoid=e32cbaad-a1eb-4299-9f16-1b364ab43781&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-13T05%3A17%3A35Z&ske=2026-09-14T05%3A17%3A35Z&sks=b&skv=2026-02-06&sig=eufgyk0nQhUYUHK6/nranwOuHRjKtdq5BvB5qBBK/gA%3D' --output build.zip
+          curl --fail --location 'https://sdmntprnortheu.oaiusercontent.com/files/00000000-58cc-81f4-9708-9eeffafec816/raw?se=2026-09-14T06%3A07%3A40Z&sp=r&sv=2026-02-06&sr=b&scid=01a09e70-852e-78b3-a981-c9afc2610641&skoid=6658dbdd-f305-4d30-8f6b-d62218202cb9&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-13T23%3A18%3A42Z&ske=2026-09-14T23%3A18%3A42Z&sks=b&skv=2026-02-06&sig=oXf1P3cRlZoWjbWwolF5ZC2xqrnPs4%2Be4Da4HKxc2Ec%3D' --output build.zip
           unzip -o build.zip
           mv app-debug.apk sempY-TV.apk
       - name: Create update manifest
         run: |
           HASH=$(sha256sum sempY-TV.apk | cut -d ' ' -f 1)
-          printf '{\n  "versionCode": 3,\n  "versionName": "0.3.2",\n  "apkUrl": "https://raw.githubusercontent.com/semperthY/sempY-TV-Updates/main/sempY-TV.apk",\n  "sha256": "%s"\n}\n' "$HASH" > latest.json
+          printf '{\n  "versionCode": 4,\n  "versionName": "0.4.0",\n  "apkUrl": "https://raw.githubusercontent.com/semperthY/sempY-TV-Updates/main/sempY-TV.apk",\n  "sha256": "%s"\n}\n' "$HASH" > latest.json
       - name: Publish files
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add sempY-TV.apk latest.json
-          git commit -m "publish: sempY TV 0.3.2"
+          git commit -m "publish: sempY TV 0.4.0"
           git push
