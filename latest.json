@@ -1,7 +1,6 @@
 {
-  "versionCode": 12,
-  "versionName": "1.1.1",
+  "versionCode": 13,
+  "versionName": "1.1.2",
   "apkUrl": "https://raw.githubusercontent.com/semperthY/sempY-TV-Updates/main/sempY-TV.apk",
-  "sha256": "ffb608fb970eabf0d884513dbfd2671a971d518d10ccb0167e37536dc8196dae",
-  "cacheRevision": 2
+  "sha256": "9248be3b0160c4505992cac0b842a8e86cf680e6ae3a6b29cb3352e3587ee30f"
 }
