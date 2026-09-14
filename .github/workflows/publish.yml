@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Download verified build
         run: |
-          curl --fail --location 'https://sdmntprnortheu.oaiusercontent.com/files/00000000-4c94-81f4-ac70-fd32fdf0a042/raw?se=2026-09-14T08%3A09%3A12Z&sp=r&sv=2026-02-06&sr=b&scid=01a09ee3-e237-70e5-b877-1e57ee59b957&skoid=6658dbdd-f305-4d30-8f6b-d62218202cb9&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-13T23%3A06%3A37Z&ske=2026-09-14T23%3A06%3A37Z&sks=b&skv=2026-02-06&sig=BjJqyS6Hty82gCHiI7eB%2BszVUwrbm72ixwKIxFg3osk%3D' --output build.zip
+          curl --fail --location 'https://sdmntprnortheu.oaiusercontent.com/files/00000000-bfdc-81f4-adb6-58d03c9655ca/raw?se=2026-09-14T10%3A31%3A03Z&sp=r&sv=2026-02-06&sr=b&scid=01a09f68-8818-776f-8e07-2d39f0e21a21&skoid=6658dbdd-f305-4d30-8f6b-d62218202cb9&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-14T06%3A02%3A01Z&ske=2026-09-15T06%3A02%3A01Z&sks=b&skv=2026-02-06&sig=Isf7eOOCo/ZKN1vutewmor18SXc8PBDfbsMiShwgUzg%3D' --output build.zip
           unzip -o build.zip
           mv app-debug.apk sempY-TV.apk
       - name: Verify private playlist is absent
@@ -25,11 +25,11 @@ jobs:
       - name: Create update manifest
         run: |
           HASH=$(sha256sum sempY-TV.apk | cut -d ' ' -f 1)
-          printf '{\n  "versionCode": 6,\n  "versionName": "0.6.0",\n  "apkUrl": "https://raw.githubusercontent.com/semperthY/sempY-TV-Updates/main/sempY-TV.apk",\n  "sha256": "%s"\n}\n' "$HASH" > latest.json
+          printf '{\n  "versionCode": 7,\n  "versionName": "0.7.0",\n  "apkUrl": "https://raw.githubusercontent.com/semperthY/sempY-TV-Updates/main/sempY-TV.apk",\n  "sha256": "%s"\n}\n' "$HASH" > latest.json
       - name: Publish files
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add sempY-TV.apk latest.json
-          git commit -m "publish: sempY TV 0.6.0"
+          git commit -m "publish: sempY TV 0.7.0"
           git push
