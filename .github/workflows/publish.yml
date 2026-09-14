@@ -11,19 +11,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Download signed build
+      - name: Download verified build
         run: |
-          curl --fail --location 'https://sdmntprnortheu.oaiusercontent.com/files/00000000-58cc-81f4-9708-9eeffafec816/raw?se=2026-09-14T06%3A07%3A40Z&sp=r&sv=2026-02-06&sr=b&scid=01a09e70-852e-78b3-a981-c9afc2610641&skoid=6658dbdd-f305-4d30-8f6b-d62218202cb9&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-13T23%3A18%3A42Z&ske=2026-09-14T23%3A18%3A42Z&sks=b&skv=2026-02-06&sig=oXf1P3cRlZoWjbWwolF5ZC2xqrnPs4%2Be4Da4HKxc2Ec%3D' --output build.zip
+          curl --fail --location 'https://sdmntprcacentral.oaiusercontent.com/files/00000000-9b50-820d-8c8e-e5f451f99ad3/raw?se=2026-09-14T07%3A38%3A48Z&sp=r&sv=2026-02-06&sr=b&scid=01a09ed2-3244-7793-95d6-f8caeb8d94fa&skoid=6658dbdd-f305-4d30-8f6b-d62218202cb9&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-14T05%3A28%3A04Z&ske=2026-09-15T05%3A28%3A04Z&sks=b&skv=2026-02-06&sig=9Sy337D0qO2LJpUwfOu/7f9rxnkI7BJXQ5k0IvP2j9Y%3D' --output build.zip
           unzip -o build.zip
           mv app-debug.apk sempY-TV.apk
+      - name: Verify private playlist is absent
+        run: |
+          if strings sempY-TV.apk | grep -Eq '14389bc4798d|936ec2885478a2564d1065c84f8532c5|fluxeras'; then
+            echo 'Private playlist data found in APK'
+            exit 1
+          fi
       - name: Create update manifest
         run: |
           HASH=$(sha256sum sempY-TV.apk | cut -d ' ' -f 1)
-          printf '{\n  "versionCode": 4,\n  "versionName": "0.4.0",\n  "apkUrl": "https://raw.githubusercontent.com/semperthY/sempY-TV-Updates/main/sempY-TV.apk",\n  "sha256": "%s"\n}\n' "$HASH" > latest.json
+          printf '{\n  "versionCode": 5,\n  "versionName": "0.5.0",\n  "apkUrl": "https://raw.githubusercontent.com/semperthY/sempY-TV-Updates/main/sempY-TV.apk",\n  "sha256": "%s"\n}\n' "$HASH" > latest.json
       - name: Publish files
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add sempY-TV.apk latest.json
-          git commit -m "publish: sempY TV 0.4.0"
+          git commit -m "publish: sempY TV 0.5.0"
           git push
