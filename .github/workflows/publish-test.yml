@@ -1,0 +1,25 @@
+name: Publish test APK
+on:
+  push:
+    paths:
+      - .github/workflows/publish-test.yml
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download verified build
+        run: |
+          curl --fail --location 'https://sdmntprcentralus.oaiusercontent.com/files/00000000-b5d8-81f5-ba52-806e7863f09d/raw?se=2026-09-15T16%3A36%3A57Z&sp=r&sv=2026-02-06&sr=b&scid=01a0a5e8-23be-7d63-9960-c7d98e12cedc&skoid=6658dbdd-f305-4d30-8f6b-d62218202cb9&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-15T05%3A13%3A08Z&ske=2026-09-16T05%3A13%3A08Z&sks=b&skv=2026-02-06&sig=PKcfJcYDQesW6G4D2KZq7biKRiatdXsNNEqjRY2WcO8%3D' --output build.zip
+          echo '01e499193889ae199151b35655c046834697e396eaf2f4cfd7c2b8f3fd76aff1  build.zip' | sha256sum --check -
+          unzip -p build.zip app-release.apk > sempY-TV-1.4.0-test.apk
+          echo '4fd184cbcf8915d7129189c79d1cb9211b6073f74888d85212c9f159ede6ede7  sempY-TV-1.4.0-test.apk' | sha256sum --check -
+      - name: Publish test APK
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add sempY-TV-1.4.0-test.apk
+          git commit -m 'test: sempY TV 1.4.0 APK'
+          git push
