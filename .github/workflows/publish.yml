@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Download verified signed build
         run: |
-          curl --fail --location 'https://sdmntprdenmarkeast.oaiusercontent.com/files/00000000-ccd4-8210-a289-1f80e5ca6848/raw?se=2026-09-15T20%3A01%3A02Z&sp=r&sv=2026-02-06&sr=b&scid=dbef846e-2b7c-44cd-a27e-4d24197b0f0c&skoid=e32cbaad-a1eb-429-9f16-1b364ab43781&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-15T07%3A04%3A32Z&ske=2026-09-16T07%3A04%3A32Z&sks=b&skv=2026-02-06&sig=SHr6ymN0LRJCmdsZXRF%2FJMOR2RY%2FRFUh5A8HdUIOD0M%3D' --output build.zip
+          curl --fail --location 'https://sdmntprdenmarkeast.oaiusercontent.com/files/00000000-d3e4-8210-89fe-182cc1a085a4/raw?se=2026-09-15T20%3A02%3A10Z&sp=r&sv=2026-02-06&sr=b&scid=dbef846e-2b7c-44cd-a27e-4d24197b0f0c&skoid=e32cbaad-a1eb-4299-9f16-1b364ab43781&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-15T19%3A17%3A45Z&ske=2026-09-16T19%3A17%3A45Z&sks=b&skv=2026-02-06&sig=y40E80%2F1GJAeccohHY34v%2F7wcPOUI%2FuwpcvIztsHU04%3D' --output build.zip
           echo 'cb4cba122131913fb7ef7e082b9bc345c9862fce1d45c4121a24f8dfeb6bd4ba  build.zip' | sha256sum --check -
           unzip -o build.zip
           mv app-release.apk sempY-TV.apk
